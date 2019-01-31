@@ -1,0 +1,53 @@
+buildscript {
+    repositories {
+        google()
+        jcenter()
+        maven {
+            credentials {
+                username 'nanpRL'
+                password 'jEE1TA5jIC'
+            }
+            url 'https://repo.rdc.aliyun.com/repository/49107-release-3gYVam/'
+        }
+        maven {
+            credentials {
+                username 'nanpRL'
+                password 'jEE1TA5jIC'
+            }
+            url 'https://repo.rdc.aliyun.com/repository/49107-snapshot-egC0LB/'
+        }
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.2.0'
+        classpath 'com.foryou.library:component:0.2.3'
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+
+        maven {
+            credentials {
+                username 'nanpRL'
+                password 'jEE1TA5jIC'
+            }
+            url 'https://repo.rdc.aliyun.com/repository/49107-release-3gYVam/'
+        }
+        maven {
+            credentials {
+                username 'nanpRL'
+                password 'jEE1TA5jIC'
+            }
+            url 'https://repo.rdc.aliyun.com/repository/49107-snapshot-egC0LB/'
+        }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

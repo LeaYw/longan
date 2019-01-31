@@ -1,0 +1,43 @@
+apply plugin: 'groovy'
+apply plugin: 'maven'
+
+InputStream inputStream = project.file('maven.properties').newDataInputStream();
+Properties properties = new Properties()
+properties.load(inputStream)
+
+def MAVEN_REPO_SNAPSHOT_URL = properties.getProperty("MAVEN_REPO_SNAPSHOT_URL")
+def MAVEN_REPO_RELEASE_URL = properties.getProperty("MAVEN_REPO_RELEASE_URL")
+def GROUP_ID = properties.getProperty("GROUP_ID")
+def ARTIFACT_ID = properties.getProperty("ARTIFACT_ID")
+def VERSION = properties.getProperty("VERSION")
+def TYPE = properties.getProperty("TYPE")
+def USERNAME = properties.getProperty("USERNAME")
+def PASSWORD = properties.getProperty("PASSWORD")
+
+dependencies {
+    compile gradleApi()
+    compile localGroovy()
+}
+
+repositories {
+    mavenCentral()
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            pom.packaging = TYPE
+            pom.groupId = GROUP_ID
+            pom.version = VERSION
+            pom.artifactId = ARTIFACT_ID
+
+            repository(url: MAVEN_REPO_RELEASE_URL) {
+                authentication(userName: USERNAME, password: PASSWORD)
+            }
+
+            repository(url: MAVEN_REPO_SNAPSHOT_URL) {
+                authentication(userName: USERNAME, password: PASSWORD)
+            }
+        }
+    }
+}
