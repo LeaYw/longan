@@ -1,4 +1,4 @@
-apply plugin: 'com.foryou.component'
+apply plugin: 'me.leayw.longan'
 
 android {
     compileSdkVersion 28
@@ -6,6 +6,7 @@ android {
 
 
     defaultConfig {
+        applicationId "com.foryou.test"
         minSdkVersion 16
         targetSdkVersion 28
         versionCode 1

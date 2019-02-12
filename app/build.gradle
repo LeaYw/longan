@@ -1,4 +1,4 @@
-apply plugin: 'com.foryou.component'
+apply plugin: 'me.leayw.longan'
 //apply plugin: 'com.android.application'
 
 android {
