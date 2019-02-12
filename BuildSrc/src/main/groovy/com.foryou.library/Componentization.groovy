@@ -11,7 +11,7 @@ class Componentization implements Plugin<Project> {
 
         if (!propertyFile.exists()) {
             propertyFile.parentFile.mkdir()
-            propertyFile.text = "isDependent=false\ncompileProject="//暂时先添加project
+            propertyFile.text = "isDependent=false\ncompileProject=\napplicationId="//暂时先添加project
         }
         def mainModuleName = target.rootProject.properties.get("mainModuleName")
 
@@ -53,6 +53,15 @@ class Componentization implements Plugin<Project> {
                         jniLibs.srcDirs = ['src/main/jniLibs', 'src/main/debug/jniLibs']
                     }
                 }
+
+                target.android.defaultConfig {
+                    if (target.properties.hasProperty("applicationId")) {
+                        applicationId target.properties.get("applicationId")
+                    } else {
+                        applicationId 'com.foryou.' + target.getName()
+                    }
+
+                }
             }
             if (isAssemble(target.gradle.startParameter.getTaskNames())) {
                 compileDependentProject(target)
@@ -60,6 +69,9 @@ class Componentization implements Plugin<Project> {
             }
         } else {
             target.apply plugin: 'com.android.library'
+            target.android {
+                resourcePrefix target.getName() + '_'
+            }
         }
     }
 
