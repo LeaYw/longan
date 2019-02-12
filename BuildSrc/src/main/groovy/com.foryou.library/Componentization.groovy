@@ -60,7 +60,9 @@ class Componentization implements Plugin<Project> {
                     } else {
                         applicationId 'com.foryou.' + target.getName()
                     }
-
+                }
+                target.android {
+                    resourcePrefix target.getName() + '_'
                 }
             }
             if (isAssemble(target.gradle.startParameter.getTaskNames())) {
