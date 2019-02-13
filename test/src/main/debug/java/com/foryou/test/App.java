@@ -1,4 +1,4 @@
-package com.foryou.test.debug;
+package com.foryou.test;
 
 import android.app.Application;
 

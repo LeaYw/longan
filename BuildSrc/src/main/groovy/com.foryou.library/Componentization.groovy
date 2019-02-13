@@ -4,6 +4,9 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 
 class Componentization implements Plugin<Project> {
+    static final int ASSEMBLE_TYPE_SYNC = 0
+    static final int ASSEMBLE_TYPE_DEBUG = 1
+    static final int ASSEMBLE_TYPE_RELEASE = 2
 
     @Override
     void apply(Project target) {
@@ -60,14 +63,20 @@ class Componentization implements Plugin<Project> {
                     } else {
                         applicationId 'com.foryou.' + target.getName()
                     }
+                    versionCode target.rootProject.properties.get("versionCode").toInteger()
+                    versionName target.rootProject.properties.get("versionName")
                 }
                 target.android {
                     resourcePrefix target.getName() + '_'
                 }
             }
-            if (isAssemble(target.gradle.startParameter.getTaskNames())) {
-                compileDependentProject(target)
+            def assembleType = assembleType(target.gradle.startParameter.getTaskNames())
+            if (assembleType != ASSEMBLE_TYPE_SYNC) {
+                compileDependentProject(target, "compileProject")
                 initIApplication(target)
+//                if (assembleType == ASSEMBLE_TYPE_DEBUG) {
+//                    compileDependentProject(target, "debugCompileProject")
+//                }
             }
         } else {
             target.apply plugin: 'com.android.library'
@@ -81,8 +90,8 @@ class Componentization implements Plugin<Project> {
      * 将依赖组件动态引入，强制解耦合
      * @param project
      */
-    static void compileDependentProject(Project project) {
-        String allProject = project.properties.get("compileProject")
+    static void compileDependentProject(Project project, String key) {
+        String allProject = project.properties.get(key)
         if (allProject == null || allProject.length() == 0) {
             return
         }
@@ -99,18 +108,29 @@ class Componentization implements Plugin<Project> {
         //todo 实现application初始化代码时初始化组件代码，解除初始化代码耦合
     }
 
-    static boolean isAssemble(List<String> taskNames) {
-        def isAssemble = false
-        taskNames.each {
-            if (it.toUpperCase().contains("ASSEMBLE")
-                    || it.contains("aR")
-                    || it.contains("asR")
-                    || it.contains("asD")
-                    || it.toUpperCase().contains("INSTALL")
-            ) {
-                isAssemble = true
+    static int assembleType(List<String> taskNames) {
+        def isAssemble = ASSEMBLE_TYPE_SYNC
+        if (!taskNames.isEmpty()) {
+            def lastTaskName = taskNames.first()
+            if (lastTaskName.contains("assembleDebug")) {
+                isAssemble = ASSEMBLE_TYPE_DEBUG
+            } else if (lastTaskName.contains("assembleRelease")) {
+                isAssemble = ASSEMBLE_TYPE_RELEASE
             }
         }
         isAssemble
+//        taskNames.each {
+//            if (it.toUpperCase().contains("ASSEMBLE")
+//                    || it.contains("aR")
+//                    || it.contains("asR")
+//                    || it.contains("asD")
+//                    || it.toUpperCase().contains("INSTALL")
+//            ) {
+//                if (it.contains("Debug")){
+//                    isAssemble = ASSEMBLE_TYPE_DEBUG
+//                }
+//            }
+//        }
+//        isAssemble
     }
 }
