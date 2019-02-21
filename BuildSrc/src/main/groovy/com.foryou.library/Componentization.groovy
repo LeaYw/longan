@@ -63,12 +63,14 @@ class Componentization implements Plugin<Project> {
                     } else {
                         applicationId 'com.foryou.' + target.getName()
                     }
-                    versionCode target.rootProject.properties.get("versionCode").toInteger()
-                    versionName target.rootProject.properties.get("versionName")
                 }
                 target.android {
                     resourcePrefix target.getName() + '_'
                 }
+            }
+            target.android.defaultConfig {
+                versionCode target.rootProject.properties.get("versionCode").toInteger()
+                versionName target.rootProject.properties.get("versionName")
             }
             def assembleType = assembleType(target.gradle.startParameter.getTaskNames())
             if (assembleType != ASSEMBLE_TYPE_SYNC) {
