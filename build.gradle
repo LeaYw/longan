@@ -45,6 +45,7 @@ allprojects {
             }
             url 'https://repo.rdc.aliyun.com/repository/49107-snapshot-egC0LB/'
         }
+        maven { url "https://jitpack.io" }
     }
 }
 

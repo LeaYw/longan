@@ -16,9 +16,9 @@ class Componentization implements Plugin<Project> {
             propertyFile.parentFile.mkdir()
             propertyFile.text = "isDependent=false\ncompileProject=\napplicationId="//暂时先添加project
         }
-        def mainModuleName = target.rootProject.properties.get("mainModuleName")
+        def mainModuleName = target.rootProject.mainModuleName
 
-        if (target.getName() != mainModuleName) {
+        if (target.name != mainModuleName) {
             def manifest = target.file("src/main/debug/AndroidManifest.xml")
             if (!manifest.exists()) {
                 manifest.parentFile.mkdirs()
@@ -37,16 +37,15 @@ class Componentization implements Plugin<Project> {
             }
         }
 
-        def isDependent = Boolean.parseBoolean(target.properties.get("isDependent"))//从外部文件读取，例如properties文件
-
-        if (target.getName() == mainModuleName) {
+        def isDependent = Boolean.parseBoolean(target.isDependent)
+        if (target.name == mainModuleName) {
             isDependent = true
             target.setProperty("isDependent", true)
         }
 
         if (isDependent) {
             target.apply plugin: 'com.android.application'
-            if (target.getName() != mainModuleName) {
+            if (target.name != mainModuleName) {
                 target.android.sourceSets {
                     main {
                         manifest.srcFile 'src/main/debug/AndroidManifest.xml'
@@ -59,18 +58,18 @@ class Componentization implements Plugin<Project> {
 
                 target.android.defaultConfig {
                     if (target.properties.hasProperty("applicationId")) {
-                        applicationId target.properties.get("applicationId")
+                        applicationId target.properties.applicationId
                     } else {
-                        applicationId 'com.foryou.' + target.getName()
+                        applicationId 'com.foryou.' + target.name
                     }
                 }
                 target.android {
-                    resourcePrefix target.getName() + '_'
+                    resourcePrefix target.name + '_'
                 }
             }
             target.android.defaultConfig {
-                versionCode target.rootProject.properties.get("versionCode").toInteger()
-                versionName target.rootProject.properties.get("versionName")
+                versionCode target.rootProject.properties.versionCode.toInteger()
+                versionName target.rootProject.properties.versionName
             }
             def assembleType = assembleType(target.gradle.startParameter.getTaskNames())
             if (assembleType != ASSEMBLE_TYPE_SYNC) {
@@ -83,7 +82,7 @@ class Componentization implements Plugin<Project> {
         } else {
             target.apply plugin: 'com.android.library'
             target.android {
-                resourcePrefix target.getName() + '_'
+                resourcePrefix target.name + '_'
             }
         }
     }
@@ -102,8 +101,16 @@ class Componentization implements Plugin<Project> {
             return
         }
         compileProjects.each {
-            project.dependencies.add("implementation", project.project(":$it"))
+            if (isMaven(it)) {
+                project.dependencies.add("implementation",it)
+            } else {
+                project.dependencies.add("implementation",project.project(":$it"))
+            }
         }
+    }
+
+    static def isMaven(String project) {
+        project.contains(".") && project.contains(":")
     }
 
     static def initIApplication(Project project) {

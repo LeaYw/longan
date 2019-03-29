@@ -1,9 +1,11 @@
 package com.foryou.test;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
+
 import com.foryou.test.R;
 
 /**
@@ -20,5 +22,8 @@ public class TestActivity extends AppCompatActivity {
         setContentView(R.layout.test_activity);
         TextView view = findViewById(R.id.textView);
         view.setText(BuildConfig.VERSION_NAME);
+        view.setOnClickListener(v -> {
+            startActivity(new Intent(this, LoginActivity.class));
+        });
     }
 }
