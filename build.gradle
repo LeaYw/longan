@@ -16,6 +16,7 @@ buildscript {
             }
             url 'https://repo.rdc.aliyun.com/repository/49107-snapshot-egC0LB/'
         }
+
     }
 
     dependencies {
@@ -27,6 +28,7 @@ buildscript {
 }
 
 allprojects {
+
     repositories {
         google()
         jcenter()

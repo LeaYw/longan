@@ -4,7 +4,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 
 class Componentization implements Plugin<Project> {
-    static final int ASSEMBLE_TYPE_SYNC = 0
+    static final int ASSEMBLE_TYPE_GENERATE = 0
     static final int ASSEMBLE_TYPE_DEBUG = 1
     static final int ASSEMBLE_TYPE_RELEASE = 2
 
@@ -71,8 +71,16 @@ class Componentization implements Plugin<Project> {
                 versionCode target.rootProject.properties.versionCode.toInteger()
                 versionName target.rootProject.properties.versionName
             }
+
+            target.android.buildTypes {
+
+                perform {
+                    initWith debug
+                    debuggable false
+                }
+            }
             def assembleType = assembleType(target.gradle.startParameter.getTaskNames())
-            if (assembleType != ASSEMBLE_TYPE_SYNC) {
+            if (assembleType != ASSEMBLE_TYPE_GENERATE) {
                 compileDependentProject(target, "compileProject")
                 initIApplication(target)
 //                if (assembleType == ASSEMBLE_TYPE_DEBUG) {
@@ -118,7 +126,7 @@ class Componentization implements Plugin<Project> {
     }
 
     static int assembleType(List<String> taskNames) {
-        def isAssemble = ASSEMBLE_TYPE_SYNC
+        def isAssemble = ASSEMBLE_TYPE_GENERATE
         if (!taskNames.isEmpty()) {
             def lastTaskName = taskNames.first()
             if (lastTaskName.contains("assembleDebug")) {

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
@@ -25,7 +26,11 @@ public class LoginActivity extends AppCompatActivity {
         findViewById(R.id.hello).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ARouter.getInstance().build("/qrcode/sf_close").navigation();
+                if (!BuildConfig.DEBUG){
+                    Toast.makeText(LoginActivity.this, BuildConfig.World, Toast.LENGTH_SHORT).show();
+                } else {
+                    ARouter.getInstance().build("/qrcode/sf_close").navigation();
+                }
             }
         });
     }

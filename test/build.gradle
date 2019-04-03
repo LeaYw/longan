@@ -16,9 +16,29 @@ android {
         }
     }
 
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+
     buildTypes {
+
+        debug{
+            buildConfigField("String", "Hello", "\"Hello_Debug\"")
+            buildConfigField("String", "World", "\"Hello_Debug_World\"")
+        }
+
+        perform{
+            initWith debug
+            buildConfigField("String", "Hello", "\"Hello_Perform\"")
+        }
+
         release {
             minifyEnabled false
+            buildConfigField("String", "World", "\"Hello_Release_World\"")
+            buildConfigField("String", "Hello", "\"Hello_Release\"")
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
