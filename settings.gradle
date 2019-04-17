@@ -1,2 +1,2 @@
-include ':app', ':test'
+include ':app', ':test', ':library', ':longan_api'
 include ':buildSrc'

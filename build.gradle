@@ -16,14 +16,11 @@ buildscript {
             }
             url 'https://repo.rdc.aliyun.com/repository/49107-snapshot-egC0LB/'
         }
-
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.0'
-        classpath 'me.leayw.tools.build:longan:0.0.1'
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+        classpath 'com.android.tools.build:gradle:3.2.1'
+        classpath 'me.leayw.tools.build:longan:0.1.1'
     }
 }
 

@@ -1,7 +1,9 @@
 package com.foryou.component;
 
 import android.app.Application;
+
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.foryou.longan_api.Longan;
 
 /**
  * Description:
@@ -19,5 +21,6 @@ public class App extends Application {
             ARouter.openDebug();
         }
         ARouter.init(this);
+        Longan.init(this);
     }
 }

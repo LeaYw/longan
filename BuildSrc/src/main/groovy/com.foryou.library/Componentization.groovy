@@ -45,6 +45,17 @@ class Componentization implements Plugin<Project> {
 
         if (isDependent) {
             target.apply plugin: 'com.android.application'
+            target.android.defaultConfig {
+                versionCode target.rootProject.properties.versionCode.toInteger()
+                versionName target.rootProject.properties.versionName
+            }
+//            target.android.buildTypes {
+//                perform {
+//                    initWith debug
+//                    debuggable false
+//                }
+//            }
+
             if (target.name != mainModuleName) {
                 target.android.sourceSets {
                     main {
@@ -67,31 +78,26 @@ class Componentization implements Plugin<Project> {
                     resourcePrefix target.name + '_'
                 }
             }
-            target.android.defaultConfig {
-                versionCode target.rootProject.properties.versionCode.toInteger()
-                versionName target.rootProject.properties.versionName
-            }
-
-            target.android.buildTypes {
-
-                perform {
-                    initWith debug
-                    debuggable false
-                }
-            }
             def assembleType = assembleType(target.gradle.startParameter.getTaskNames())
             if (assembleType != ASSEMBLE_TYPE_GENERATE) {
                 compileDependentProject(target, "compileProject")
                 initIApplication(target)
-//                if (assembleType == ASSEMBLE_TYPE_DEBUG) {
-//                    compileDependentProject(target, "debugCompileProject")
-//                }
             }
         } else {
             target.apply plugin: 'com.android.library'
             target.android {
                 resourcePrefix target.name + '_'
             }
+            target.android.defaultConfig {
+                versionCode target.rootProject.properties.versionCode.toInteger()
+                versionName target.rootProject.properties.versionName
+            }
+//            target.android.buildTypes {
+//                perform {
+//                    initWith debug
+//                    debuggable false
+//                }
+//            }
         }
     }
 
@@ -110,9 +116,9 @@ class Componentization implements Plugin<Project> {
         }
         compileProjects.each {
             if (isMaven(it)) {
-                project.dependencies.add("implementation",it)
+                project.dependencies.add("implementation", it)
             } else {
-                project.dependencies.add("implementation",project.project(":$it"))
+                project.dependencies.add("implementation", project.project(":$it"))
             }
         }
     }
@@ -122,7 +128,7 @@ class Componentization implements Plugin<Project> {
     }
 
     static def initIApplication(Project project) {
-        //todo 实现application初始化代码时初始化组件代码，解除初始化代码耦合
+        project.android.registerTransform(new InjectTransform(project))
     }
 
     static int assembleType(List<String> taskNames) {
@@ -136,18 +142,5 @@ class Componentization implements Plugin<Project> {
             }
         }
         isAssemble
-//        taskNames.each {
-//            if (it.toUpperCase().contains("ASSEMBLE")
-//                    || it.contains("aR")
-//                    || it.contains("asR")
-//                    || it.contains("asD")
-//                    || it.toUpperCase().contains("INSTALL")
-//            ) {
-//                if (it.contains("Debug")){
-//                    isAssemble = ASSEMBLE_TYPE_DEBUG
-//                }
-//            }
-//        }
-//        isAssemble
     }
 }

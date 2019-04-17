@@ -15,12 +15,15 @@ def USERNAME = properties.getProperty("USERNAME")
 def PASSWORD = properties.getProperty("PASSWORD")
 
 dependencies {
+    compile 'com.android.tools.build:gradle:3.2.1'
+    compile 'org.javassist:javassist:3.24.1-GA'
     compile gradleApi()
     compile localGroovy()
 }
 
 repositories {
-    mavenCentral()
+    google()
+    jcenter()
 }
 
 uploadArchives {
