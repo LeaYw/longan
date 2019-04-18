@@ -10,5 +10,5 @@ import android.app.Application;
  */
 public interface AppProxy {
 
-    void onCreate();
+    void onCreate(Application application);
 }

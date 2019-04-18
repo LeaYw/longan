@@ -16,7 +16,7 @@ public class Longan {
 
     public static void init(Application application){
         Log.i(TAG, "longan init start");
-        LogisticsCenter.init();
+        LogisticsCenter.init(application);
         Log.i(TAG, "longan init end");
     }
 }

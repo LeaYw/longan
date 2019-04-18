@@ -46,9 +46,6 @@ class ConvertUtils {
                         if (classNames.contains(className)) {
                             throw new RuntimeException("You have duplicate classes with the same name : " + className + " please remove duplicate classes ")
                         }
-                        if (className == "com.foryou.longan_api.core.LogisticsCenter"){
-                            println "^^^^^^^^^^^^^^^^^^^^^^^^^^" + it.file.absolutePath
-                        }
                         classNames.add(className)
                     }
                 }
@@ -70,7 +67,6 @@ class ConvertUtils {
     }
 
     static void writeToJar(String jarPath, byte[] bytes, String fileName) {
-        println "start write to jar"
         File jarFile = new File(jarPath)
         File tempJarFile = new File(jarFile.parent,jarFile.name + ".tmp")
         if (tempJarFile.exists()) {
@@ -92,7 +88,6 @@ class ConvertUtils {
             def zipEntry = new ZipEntry(entryName)
 
             tempJar.putNextEntry(zipEntry)
-            println "//////////////////////" + entry.name
             if (entry.name != fileName) {
                 while ((bytesRead = entryStream.read(buffer)) != -1) {
                     tempJar.write(buffer, 0, bytesRead)
@@ -112,8 +107,6 @@ class ConvertUtils {
         if (tempJarFile.exists()){
             tempJarFile.delete()
         }
-//        tempJarFile.renameTo(jarFile)
-        println jarPath + " write success."
     }
 
 }

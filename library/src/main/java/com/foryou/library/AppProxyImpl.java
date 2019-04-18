@@ -1,5 +1,6 @@
 package com.foryou.library;
 
+import android.app.Application;
 import android.util.Log;
 
 import com.foryou.longan_api.AppProxy;
@@ -13,12 +14,8 @@ import com.foryou.longan_api.AppProxy;
 public class AppProxyImpl implements AppProxy {
     private static final String TAG = "AppProxyImpl";
 
-    public AppProxyImpl() {
-        Log.e(TAG, "sdfasdfasdfasdfasdfsdf");
-    }
-
     @Override
-    public void onCreate() {
-        Log.e(TAG, "hahahahahahahhahahha");
+    public void onCreate(Application application) {
+        Log.e(TAG, "hahahahahahahhahahha" + application.toString());
     }
 }

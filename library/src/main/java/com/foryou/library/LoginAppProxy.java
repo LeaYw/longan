@@ -1,5 +1,6 @@
 package com.foryou.library;
 
+import android.app.Application;
 import android.util.Log;
 
 import com.foryou.longan_api.AppProxy;
@@ -15,7 +16,7 @@ public class LoginAppProxy implements AppProxy {
     private static final String TAG = "LoginAppProxy";
 
     @Override
-    public void onCreate() {
+    public void onCreate(Application application) {
         Log.e(TAG, "sdfsdfsdfasdfasdfasdfsf");
     }
 }
