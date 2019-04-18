@@ -1,3 +1,21 @@
+def parseLocalProperties(){
+    File file = rootProject.file('maven.properties')
+    if(file.exists()){
+        InputStream inputStream = rootProject.file('maven.properties').newDataInputStream();
+        Properties properties = new Properties()
+        properties.load(inputStream)
+
+        if(properties.containsKey("MAVEN_REPO_SNAPSHOT_URL")){
+            ext.MAVEN_REPO_SNAPSHOT_URL = properties.getProperty("MAVEN_REPO_SNAPSHOT_URL")
+            ext.MAVEN_REPO_RELEASE_URL = properties.getProperty("MAVEN_REPO_RELEASE_URL")
+            ext.GROUP_ID = properties.getProperty("GROUP_ID")
+            ext.TYPE = properties.getProperty("TYPE")
+            ext.USERNAME = properties.getProperty("USERNAME")
+            ext.PASSWORD = properties.getProperty("PASSWORD")
+        }
+    }
+}
+
 buildscript {
     repositories {
         google()
@@ -46,6 +64,7 @@ allprojects {
         }
         maven { url "https://jitpack.io" }
     }
+    parseLocalProperties()
 }
 
 task clean(type: Delete) {

@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply from: 'mvn_sync.gradle'
 
 android {
     compileSdkVersion 28
