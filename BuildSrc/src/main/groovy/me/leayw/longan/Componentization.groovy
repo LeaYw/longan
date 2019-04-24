@@ -1,4 +1,4 @@
-package com.foryou.library
+package me.leayw.longan
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project

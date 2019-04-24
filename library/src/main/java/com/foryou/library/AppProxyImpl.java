@@ -3,7 +3,7 @@ package com.foryou.library;
 import android.app.Application;
 import android.util.Log;
 
-import com.foryou.longan_api.AppProxy;
+import me.leayw.longan_api.AppProxy;
 
 /**
  * Description:

@@ -1,4 +1,4 @@
-package com.foryou.longan_api;
+package me.leayw.longan_api;
 
 import android.app.Application;
 

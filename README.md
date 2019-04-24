@@ -59,4 +59,4 @@
     ```
     Longan.init(mApplication); // 尽可能早，推荐在Application中初始化
     ```
-6. 子模块中需要初始化时，初始化代码写到com.foryou.longan_api.AppProxy的实现了的onCreate方法。
+6. 子模块中需要初始化时，初始化代码写到AppProxy的实现类的onCreate方法。

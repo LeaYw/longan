@@ -1,9 +1,9 @@
-package com.foryou.longan_api;
+package me.leayw.longan_api;
 
 import android.app.Application;
 import android.util.Log;
 
-import com.foryou.longan_api.core.LogisticsCenter;
+import me.leayw.longan_api.core.LogisticsCenter;
 
 /**
  * Description:
