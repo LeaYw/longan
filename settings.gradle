@@ -1,2 +1,1 @@
-include ':app', ':test', ':library', ':longan_api'
-include ':buildSrc'
+include ':app', ':test', ':library', ':longan_api',":gradle_plugin"

@@ -23,15 +23,6 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
-        findViewById(R.id.hello).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!BuildConfig.DEBUG){
-                    Toast.makeText(LoginActivity.this, BuildConfig.World, Toast.LENGTH_SHORT).show();
-                } else {
-                    ARouter.getInstance().build("/qrcode/sf_close").navigation();
-                }
-            }
-        });
+        findViewById(R.id.hello).setOnClickListener(v -> ARouter.getInstance().build("/qrcode/sf_close").navigation());
     }
 }
