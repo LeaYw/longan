@@ -1,9 +1,9 @@
-# Oreo
+# Longan
 组件化开发gradle插件
 ## 功能介绍：
 1. 管理application和library插件
 2. 动态依赖组件、支持versions
-3. AppProxy
+3. AppProxy（组件的application，执行初始化方法）
 4. 资源前缀检查
 5. 工程版本号统一管理
 
@@ -24,6 +24,7 @@
             implementation 'me.leayw.longan-api:0.1.6'
         }
     ```
+    初始化代码写到AppProxy的实现类中，具体代码可以参考项目中library模块。
 
 * 组件build.gradle第一行apply plugin 'com.android.application'替换为'me.leayw.longan'
 
