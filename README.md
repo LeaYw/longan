@@ -1,4 +1,4 @@
-# Longan
+# Oreo
 组件化开发gradle插件
 ## 功能介绍：
 1. 管理application和library插件
