@@ -29,6 +29,18 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    dataBinding {
+        enabled true
+    }
+
+
+}
+
+longan{
+    dynamicDependencies {
+        implementation qrcode
+    }
 }
 
 dependencies {
@@ -41,6 +53,7 @@ dependencies {
 
     implementation 'me.leayw.longan:longan-api:0.1.6'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
 }
 repositories {
     mavenCentral()

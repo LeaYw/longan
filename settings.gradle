@@ -1,1 +1,5 @@
-include ':app', ':test', ':library', ':longan_api',":gradle_plugin"
+include ':app',
+        ':test',
+        ':library',
+        ':longan_api',
+        ":gradle_plugin"

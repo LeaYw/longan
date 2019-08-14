@@ -10,94 +10,36 @@ class Componentization implements Plugin<Project> {
 
     @Override
     void apply(Project target) {
-        def propertyFile = target.file("gradle.properties")
-
-        if (!propertyFile.exists()) {
-            propertyFile.parentFile.mkdir()
-            propertyFile.text = "isDependent=false\ncompileProject=\napplicationId="//暂时先添加project
-        }
-        def mainModuleName = target.rootProject.mainModuleName
-
-        if (target.name != mainModuleName) {
-            def manifest = target.file("src/main/debug/AndroidManifest.xml")
-            if (!manifest.exists()) {
-                manifest.parentFile.mkdirs()
-                def srcManifest = target.file("src/main/AndroidManifest.xml")
-                if (srcManifest.exists()) {
-                    manifest << srcManifest.text
-                }
-            }
-            def debugRes = target.file('src/main/debug/res')
-            if (!debugRes.exists()) {
-                debugRes.mkdir()
-            }
-            def debugJava = target.file('src/main/debug/java')
-            if (!debugJava.exists()) {
-                debugJava.mkdir()
-            }
+        def mainModuleName = "app"
+        if (target.rootProject.hasProperty("mainModuleName")) {
+            mainModuleName = target.rootProject.mainModuleName
         }
 
-        def isDependent = Boolean.parseBoolean(target.isDependent)
-        if (target.name == mainModuleName) {
-            isDependent = true
-            target.setProperty("isDependent", true)
-        }
+        def isApp = target.name == mainModuleName
 
-        if (isDependent) {
+        if (isApp) {
             target.apply plugin: 'com.android.application'
-            target.android.defaultConfig {
-                versionCode target.rootProject.properties.versionCode.toInteger()
-                versionName target.rootProject.properties.versionName
-            }
-//            target.android.buildTypes {
-//                perform {
-//                    initWith debug
-//                    debuggable false
-//                }
-//            }
 
-            if (target.name != mainModuleName) {
-                target.android.sourceSets {
-                    main {
-                        manifest.srcFile 'src/main/debug/AndroidManifest.xml'
-                        java.srcDirs = ['src/main/java', 'src/main/debug/java']
-                        res.srcDirs = ['src/main/res', 'src/main/debug/res']
-                        assets.srcDirs = ['src/main/assets', 'src/main/debug/assets']
-                        jniLibs.srcDirs = ['src/main/jniLibs', 'src/main/debug/jniLibs']
-                    }
-                }
+            target.extensions.create("longan", LonganExtension)
 
-                target.android.defaultConfig {
-                    if (target.properties.hasProperty("applicationId")) {
-                        applicationId target.properties.applicationId
-                    } else {
-                        applicationId 'com.foryou.' + target.name
-                    }
-                }
-                target.android {
-                    resourcePrefix target.name + '_'
-                }
-            }
             def assembleType = assembleType(target.gradle.startParameter.getTaskNames())
             if (assembleType != ASSEMBLE_TYPE_GENERATE) {
-                compileDependentProject(target, "compileProject")
+                compileDependentProject(target)
                 initIApplication(target)
             }
         } else {
             target.apply plugin: 'com.android.library'
+        }
+
+        target.android.defaultConfig {
+            versionCode target.rootProject.properties.versionCode.toInteger()
+            versionName target.rootProject.properties.versionName
+        }
+
+        if (target.name != mainModuleName) {
             target.android {
                 resourcePrefix target.name + '_'
             }
-            target.android.defaultConfig {
-                versionCode target.rootProject.properties.versionCode.toInteger()
-                versionName target.rootProject.properties.versionName
-            }
-//            target.android.buildTypes {
-//                perform {
-//                    initWith debug
-//                    debuggable false
-//                }
-//            }
         }
     }
 
@@ -105,26 +47,12 @@ class Componentization implements Plugin<Project> {
      * 将依赖组件动态引入，强制解耦合
      * @param project
      */
-    static void compileDependentProject(Project project, String key) {
-        String allProject = project.properties.get(key)
-        if (allProject == null || allProject.length() == 0) {
-            return
+    static void compileDependentProject(Project project) {
+        project.afterEvaluate {
+            def longanExtension = project.extensions.longan
+            println longanExtension
+            project.dependencies(longanExtension.dynamicDependencies)
         }
-        def compileProjects = allProject.split(",")
-        if (compileProjects == null || compileProjects.length == 0) {
-            return
-        }
-        compileProjects.each {
-            if (isMaven(it)) {
-                project.dependencies.add("implementation", it)
-            } else {
-                project.dependencies.add("implementation", project.project(":$it"))
-            }
-        }
-    }
-
-    static def isMaven(String project) {
-        project.contains(".") && project.contains(":")
     }
 
     static def initIApplication(Project project) {
@@ -143,4 +71,5 @@ class Componentization implements Plugin<Project> {
         }
         isAssemble
     }
+
 }

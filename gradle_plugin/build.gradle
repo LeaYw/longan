@@ -15,7 +15,7 @@ def USERNAME = properties.getProperty("USERNAME")
 def PASSWORD = properties.getProperty("PASSWORD")
 
 dependencies {
-    compile 'com.android.tools.build:gradle:3.4.0'
+    compile 'com.android.tools.build:gradle:3.4.2'
     compile 'org.javassist:javassist:3.25.0-GA'
     compile gradleApi()
     compile localGroovy()
