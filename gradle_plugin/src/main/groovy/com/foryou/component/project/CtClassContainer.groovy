@@ -1,4 +1,4 @@
-package me.leayw.longan
+package com.foryou.component.project
 
 import javassist.CtClass
 

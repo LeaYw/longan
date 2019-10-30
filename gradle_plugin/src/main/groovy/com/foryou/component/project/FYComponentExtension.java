@@ -1,4 +1,4 @@
-package me.leayw.longan;
+package com.foryou.component.project;
 
 import groovy.lang.Closure;
 
@@ -8,7 +8,7 @@ import groovy.lang.Closure;
  * Date:2019-08-13 17:07
  * Email:liyawei@foryou56.com
  */
-public class LonganExtension {
+public class FYComponentExtension {
 
     Closure dynamicDependencies;
 
@@ -18,7 +18,7 @@ public class LonganExtension {
 
     @Override
     public String toString() {
-        return "LonganExtension{" +
+        return "FYComponentExtension{" +
                 "dynamicDependencies=" + dynamicDependencies +
                 '}';
     }

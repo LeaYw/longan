@@ -1,9 +1,10 @@
-package me.leayw.longan
+package com.foryou.component.project
 
+import com.foryou.component.Constant
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
-class Componentization implements Plugin<Project> {
+class ProjectPlugin implements Plugin<Project> {
     static final int ASSEMBLE_TYPE_GENERATE = 0
     static final int ASSEMBLE_TYPE_DEBUG = 1
     static final int ASSEMBLE_TYPE_RELEASE = 2
@@ -20,7 +21,9 @@ class Componentization implements Plugin<Project> {
         if (isApp) {
             target.apply plugin: 'com.android.application'
 
-            target.extensions.create("longan", LonganExtension)
+            target.extensions.create("fyComponent", FYComponentExtension)
+            target.task(Constant.TASK_NAME_DEBUG_START, type: StartDebugTask)
+            target.task(Constant.TASK_NAME_DEBUG_STOP, type: StopDebugTask)
 
             def assembleType = assembleType(target.gradle.startParameter.getTaskNames())
             if (assembleType != ASSEMBLE_TYPE_GENERATE) {
@@ -49,9 +52,8 @@ class Componentization implements Plugin<Project> {
      */
     static void compileDependentProject(Project project) {
         project.afterEvaluate {
-            def longanExtension = project.extensions.longan
-            println longanExtension
-            project.dependencies(longanExtension.dynamicDependencies)
+            def fyComponent = project.extensions.longan
+            project.dependencies(fyComponent.dynamicDependencies)
         }
     }
 

@@ -1,4 +1,4 @@
-apply plugin: 'me.leayw.longan'
+apply plugin: 'com.foryou.component'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
@@ -37,7 +37,7 @@ android {
 
 }
 
-longan{
+fyComponent{
     dynamicDependencies {
         implementation qrcode
     }
@@ -53,7 +53,7 @@ dependencies {
 
     implementation 'me.leayw.longan:longan-api:0.1.6'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-
+    implementation deps.foryou.core_ui
 }
 repositories {
     mavenCentral()

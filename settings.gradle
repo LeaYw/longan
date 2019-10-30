@@ -1,3 +1,29 @@
+buildscript {
+    repositories {
+        google()
+        jcenter()
+        maven {
+            credentials {
+                username 'nanpRL'
+                password 'jEE1TA5jIC'
+            }
+            url 'https://repo.rdc.aliyun.com/repository/49107-release-3gYVam/'
+        }
+        maven {
+            credentials {
+                username 'nanpRL'
+                password 'jEE1TA5jIC'
+            }
+            url 'https://repo.rdc.aliyun.com/repository/49107-snapshot-egC0LB/'
+        }
+    }
+    dependencies {
+        classpath 'com.foryou.tools.build:component:0.1.45-SNAPSHOT'
+    }
+}
+
+apply plugin: 'com.foryou.component'
+
 include ':app',
         ':test',
         ':library',

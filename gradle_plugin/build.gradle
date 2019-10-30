@@ -1,24 +1,11 @@
 apply plugin: 'groovy'
 apply plugin: 'maven'
 
-InputStream inputStream = project.file('maven.properties').newDataInputStream();
-Properties properties = new Properties()
-properties.load(inputStream)
-
-def MAVEN_REPO_SNAPSHOT_URL = properties.getProperty("MAVEN_REPO_SNAPSHOT_URL")
-def MAVEN_REPO_RELEASE_URL = properties.getProperty("MAVEN_REPO_RELEASE_URL")
-def GROUP_ID = properties.getProperty("GROUP_ID")
-def ARTIFACT_ID = properties.getProperty("ARTIFACT_ID")
-def VERSION = properties.getProperty("VERSION")
-def TYPE = properties.getProperty("TYPE")
-def USERNAME = properties.getProperty("USERNAME")
-def PASSWORD = properties.getProperty("PASSWORD")
-
 dependencies {
-    compile 'com.android.tools.build:gradle:3.4.2'
-    compile 'org.javassist:javassist:3.25.0-GA'
-    compile gradleApi()
-    compile localGroovy()
+    implementation 'com.android.tools.build:gradle:3.5.0'
+    implementation 'org.javassist:javassist:3.25.0-GA'
+    implementation gradleApi()
+    implementation localGroovy()
 }
 
 repositories {

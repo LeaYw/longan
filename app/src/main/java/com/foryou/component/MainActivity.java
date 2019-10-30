@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.foryou.coreui.views.VectorTextView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,5 +19,6 @@ public class MainActivity extends AppCompatActivity {
                 ARouter.getInstance().build("/qrcode/jd_commission").navigation();
             }
         });
+        VectorTextView textView = new VectorTextView(this);
     }
 }
