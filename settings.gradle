@@ -18,7 +18,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.foryou.tools.build:component:0.1.45-SNAPSHOT'
+        classpath 'com.foryou.tools.build:component:0.1.65-SNAPSHOT'
     }
 }
 

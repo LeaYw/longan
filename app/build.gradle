@@ -53,7 +53,8 @@ dependencies {
 
     implementation 'me.leayw.longan:longan-api:0.1.6'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation deps.foryou.core_ui
+    implementation fydeps.foryou.core_ui
+    implementation fydeps.foryou.jd_commission
 }
 repositories {
     mavenCentral()

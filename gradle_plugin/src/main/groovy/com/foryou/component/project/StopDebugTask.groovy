@@ -15,15 +15,21 @@ class StopDebugTask extends DefaultTask {
         def debuggingProjects = XmlUtils.parseDebuggingProjects(debuggingRecordFile)
         if (debuggingProjects.target) {
             clearProject(debuggingProjects.target)
-            debuggingProjects.dependencies.each {
-                clearProject(it)
-            }
+            debuggingProjects.dependencies.forEach({Project pro->
+                def sOut = new StringBuilder()
+                def sError = new StringBuffer()
+                def process = "git rm --cached $pro.name".execute(null, project.rootDir)
+                process.consumeProcessOutput(sOut, sError)
+                process.waitFor()
+
+                def projectFile = new File(project.rootDir, pro.name)
+                projectFile.deleteDir()
+            })
+
             removeGitModules()
             revertGitConfig()
             revertVersionsFile()
-            if (debuggingRecordFile) {
-                debuggingRecordFile.deleteOnExit()
-            }
+            deleteDebugPackage()
         }
     }
 
@@ -31,18 +37,10 @@ class StopDebugTask extends DefaultTask {
      * 删除.gitmodules 和./git/module文件夹下的内容
      */
     private void removeGitModules() {
-        println "component:StopDebugTask:removeGitModules"
-        def sOut = new StringBuilder()
-        def sError = new StringBuffer()
-        def process = "rm .gitmodules".execute(null, project.rootDir)
-        process.consumeProcessOutput(sOut, sError)
-        process.waitFor()
-
-        process = "rm -rf .git/modules/*".execute(null, project.rootDir)
-        process.consumeProcessOutput(sOut, sError)
-        println sOut
-        println sError
-        process.waitFor()
+        def gitmodules = new File(project.rootDir, ".gitmodules")
+        gitmodules.delete()
+        def modulesDir = new File(project.rootDir, ".git/modules")
+        modulesDir.deleteDir()
     }
 
     /**
@@ -67,7 +65,6 @@ class StopDebugTask extends DefaultTask {
             def versionsFile = new File(project.rootDir, Constant.VERSIONS_FILE_NAME)
             versionsFile.withPrintWriter {
                 it.write(backupFile.text)
-                println "revertVersionsFile"
             }
         }
     }
@@ -78,15 +75,19 @@ class StopDebugTask extends DefaultTask {
      * @return
      */
     private void clearProject(Project target) {
-        println "component:StopDebugTask:clearProject"
         def sOut = new StringBuilder()
         def sError = new StringBuffer()
-        def process = "rm -rf $target.name".execute(null, project.rootDir)
+        def process = "git rm --cached $target.name".execute(null, project.rootDir)
         process.consumeProcessOutput(sOut, sError)
         process.waitFor()
-        process = "git rm --cached $target.name".execute(null, project.rootDir)
-        process.consumeProcessOutput(sOut, sError)
-        process.waitFor()
+
+        def projectFile = new File(project.rootDir, target.name)
+        projectFile.deleteDir()
+    }
+
+    private void deleteDebugPackage(){
+        def debugPackage = new File(project.rootDir,Constant.DEBUG_PACKAGE)
+        debugPackage.deleteDir()
     }
 
 }

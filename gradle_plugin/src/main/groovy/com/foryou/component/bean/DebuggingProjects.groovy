@@ -10,4 +10,13 @@ package com.foryou.component.bean
 public class DebuggingProjects {
     Project target
     List<Project> dependencies = new ArrayList<>()
+
+
+    @Override
+    public String toString() {
+        return "DebuggingProjects{" +
+                "target=" + target +
+                ", dependencies=" + dependencies.toListString() +
+                '}';
+    }
 }

@@ -20,18 +20,6 @@ public class FileUtils {
      * @param target
      */
     static void refreshDebuggingProjects(File file, DebuggingProjects debuggingProjects) {
-        println "component:FileUtils:refreshDebuggingProjects"
-//        def node = new Node(null, Constant.NODE_PROJECTS_NAME)
-//        node.append(generateProjectNode(debuggingProjects.target))
-//        debuggingProjects.dependencies.each { project ->
-//            Node projectNode = generateProjectNode(project)
-//            node.appendNode(projectNode)
-//        }
-//        file.withPrintWriter {
-//            println node.text()
-//            it.write(node.text())
-//        }
-
         def mb = new MarkupBuilder(file.newPrintWriter())
         mb.projects() {
             mb.target(name: debuggingProjects.target.name) {
@@ -52,7 +40,6 @@ public class FileUtils {
     }
 
     static void changeVersions(File versionsFile, DebuggingProjects debuggingProjects) {
-        println "component:FileUtils:changeVersions"
         if (!versionsFile.exists()) {
             println "没有找到$Constant.VERSIONS_FILE_NAME"
             return
@@ -78,14 +65,12 @@ public class FileUtils {
                 Project targetProject = find.value
                 def split = line.split("=")
                 if (split.length == 2) {
-                    println split[1]
                     replaceText = replaceText.replace(split[1], " project (':$targetProject.name:$targetProject.artifactId')")
                     println "modify dependence $line"
                 }
             }
         }
         versionsFile.withPrintWriter { writer ->
-            println replaceText
             writer.println(replaceText)
             println "$versionsFile.name 替换完成"
         }

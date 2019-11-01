@@ -17,21 +17,20 @@ public class DependencyUtils {
             file.withPrintWriter { printWriter ->
                 printWriter.println(sOut)
             }
-            println "依赖树读取成功：已经写入到文件$file.absolutePath"
             def treeNodes = makeTree(file, targetModule)
             def list = new ArrayList<String>()
             treeNodes.each {
                 list.add(it.data)
             }
-            return list
+            list
         } else {
             println "依赖树读取失败"
-            return Collections.emptyList()
+            Collections.emptyList()
         }
     }
 
     private static ArrayList<TreeNode> makeTree(File file, String upgradeProject) {
-        def regex1 = ~/^([|+]).*(foryou|project)+.*/
+        def regex1 = ~/^([|+\\\s]).*(foryou|project)+.*/
         def regex = ~/ {4}/
         def regex2 = ~/((\w)+\.(\w)+\.(\w)+:([(\w|\d)+ ])+)|(project\s+:([^#\d  :])+)/
         def treeNode = new TreeNode("RootProject", 0, 0)
@@ -47,7 +46,6 @@ public class DependencyUtils {
         def index = 1
         file.eachLine {
             if (it.matches(regex1)) {
-                PrintUtils.printAndWrite(it)
                 int count = 1
                 def compile = Pattern.compile(regex as String)
                 def matcher = compile.matcher(it)
@@ -60,7 +58,6 @@ public class DependencyUtils {
                     get.addChild(childrenTreeNode)
                     map.put(count, childrenTreeNode)
                 }
-                PrintUtils.printlnAndWrite("         $count")
                 index++
             }
         }
@@ -81,8 +78,8 @@ public class DependencyUtils {
 
         println("全部Module 线性关系如下：")
 
-        println TreeNode.sort(treeNode, treeNode.getJuniors().unique())
+        println parentList.toListString()
 
-        return TreeNode.sort(treeNode, parentList)
+        parentList
     }
 }

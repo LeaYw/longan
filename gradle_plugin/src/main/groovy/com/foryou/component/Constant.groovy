@@ -11,7 +11,7 @@ class Constant {
     static final String NODE_ARTIFACT_ID_NAME = "artifactId"
     static final String NODE_URL_NAME = "url"
     static final String NODE_BUILD_PROJECT_NAME = "build_project"
-    static final String DEBUG_PACKAGE = "fy_debug"
+    static final String DEBUG_PACKAGE = ".fy_debug"
     static final String DEBUG_MODULE_RECODE_FILE = "debugging_projects.xml"
     static final String GIT_CONFIG_BACKUP_FILE = "git_config.backup"
     static final String VERSIONS_BACKUP_FILE = "versions.backup"

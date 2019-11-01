@@ -1,4 +1,4 @@
-ext.deps = [:]
+ext.fydeps = [:]
 def versions = [:]
 versions.core_lib = "0.1.60"
 versions.core_ui = "1.0.0"
@@ -39,12 +39,13 @@ versions.foryou_gaode = "0.1.41"
 versions.foryou_router = "0.1.0"
 versions.upgrade = "0.2.1"
 versions.fypush = "0.1.7"
-versions.album = "0.1.26"
+versions.album = "1.0.0"
 versions.livebus = "1.4.4"
 versions.bugly="2.8.6"
 versions.bugly_native="3.6.0"
 versions.fyres = "0.1.3"
 versions.speech = "0.1.1"
+versions.jd_commission = "1.0.0"
 
 def deps = [:]
 
@@ -134,10 +135,11 @@ foryou.provider = "com.foryou.common:provider:$versions.foryou_provider"
 foryou.gaode = "com.foryou.common:gaode:$versions.foryou_gaode"
 foryou.router = "com.foryou.common:router:$versions.foryou_router"
 foryou.upgrade = "com.foryou.library:t_upgrade:$versions.upgrade"
-foryou.album = "com.foryou.common:album:$versions.album"
+foryou.album = "com.foryou.common:c_album:$versions.album"
 foryou.fypush = "com.foryou.common:t_push:$versions.fypush"
 foryou.res = "com.foryou.common:c_res:$versions.fyres"
 foryou.speech = "com.foryou.common:speech:$versions.speech"
+foryou.jd_commission = "com.foryou.common:b_jd_commission:$versions.jd_commission"
 deps.foryou = foryou
 
 
@@ -153,7 +155,7 @@ ext.build_versions = build_versions
 def jdk_version = JavaVersion.VERSION_1_8
 ext.jdk_version = jdk_version
 
-ext.deps = deps
+ext.fydeps = deps
 
 static def addRepos(RepositoryHandler handler) {
     handler.google()
@@ -162,20 +164,3 @@ static def addRepos(RepositoryHandler handler) {
 }
 
 ext.addRepos = this.&addRepos
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

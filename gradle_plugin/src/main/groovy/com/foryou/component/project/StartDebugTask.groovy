@@ -19,8 +19,6 @@ class StartDebugTask extends DefaultTask {
         String targetModule = project["Module"]//eg:com.foryou.common:corelib:1.0.0
         String branch = project["Branch"]//eg:dev
 
-        println "component:targetModule=$targetModule"
-        println "component:branch=$branch"
         backupGitConfig()
         def debuggingProjects = analyzeDependencies(targetModule)
         if (debuggingProjects.target) {
@@ -39,7 +37,6 @@ class StartDebugTask extends DefaultTask {
     }
 
     private File initRecordFile() {
-        println "component:initRecordFile"
         def debugPackage = new File(project.rootDir, Constant.DEBUG_PACKAGE)
         if (!debugPackage.exists()) {
             debugPackage.mkdir()
@@ -57,14 +54,14 @@ class StartDebugTask extends DefaultTask {
      * @return DebuggingProjects
      */
     private DebuggingProjects analyzeDependencies(String targetModule) {
-        println "component:analyzeDependencies:targetModule=$targetModule"
         def dependencies = DependencyUtils.analyzeDependency(project, targetModule)
         GitUtils.cloneProject(project.rootDir.path, Constant.PROJECTS_ADDRESS)
         Projects projects = XmlUtils.parse("$project.rootDir$File.separator$Constant.DEBUG_PACKAGE$File.separator$Constant.PROJECT_MP$File.separator$Constant.PROJECT_MP_FILE")
         def debuggingProjects = new DebuggingProjects()
+        println dependencies.toListString()
         dependencies.each { dependent ->
             def findProject = projects.list.find { Project project ->
-                dependent.contains(project.groupId + project.artifactId)
+                dependent.contains("$project.groupId:$project.artifactId")
             }
             if (findProject) {
                 println findProject
@@ -75,9 +72,9 @@ class StartDebugTask extends DefaultTask {
         def targetProject = projects.list.find { Project project ->
             targetModule.contains("$project.groupId:$project.artifactId")
         }
-        println "target:$targetProject"
         debuggingProjects.target = targetProject
 
+        println "debuggingProjects:$debuggingProjects"
         return debuggingProjects
     }
 
@@ -85,7 +82,6 @@ class StartDebugTask extends DefaultTask {
      * 备份.git/config 文件
      */
     private void backupGitConfig() {
-        println "component:backupGitConfig"
         def file = new File("$project.rootDir$File.separator" + ".git$File.separator" + "config")
         def debugPackage = new File("$project.rootDir$File.separator$Constant.DEBUG_PACKAGE")
         if (!debugPackage.exists()) {
@@ -105,7 +101,6 @@ class StartDebugTask extends DefaultTask {
      * @param versionsFile
      */
     private void backupVersionsFile(File versionsFile) {
-        println "component:backupVersionsFile"
         def debugPackage = new File("$project.rootDir$File.separator$Constant.DEBUG_PACKAGE")
         if (!debugPackage.exists()) {
             debugPackage.mkdir()
@@ -115,7 +110,7 @@ class StartDebugTask extends DefaultTask {
             backupFile.createNewFile()
         }
         backupFile.withPrintWriter {
-            it.println(versionsFile.text)
+            it.println(versionsFile.text.trim())
         }
     }
 

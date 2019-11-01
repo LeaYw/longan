@@ -23,7 +23,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.0'
         classpath 'me.leayw.tools.build:longan:1.1.0'
-        classpath 'com.foryou.tools.build:component:0.1.45-SNAPSHOT'
+        classpath 'com.foryou.tools.build:component:0.1.65-SNAPSHOT'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -49,6 +49,8 @@ allprojects {
             url 'https://repo.rdc.aliyun.com/repository/49107-snapshot-egC0LB/'
         }
         maven { url "https://jitpack.io" }
+        maven { url 'https://dl.bintray.com/umsdk/release' }
+
     }
 }
 

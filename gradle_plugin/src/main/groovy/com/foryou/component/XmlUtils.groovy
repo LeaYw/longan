@@ -14,7 +14,6 @@ import com.foryou.component.bean.Projects
 public class XmlUtils {
 
     static DebuggingProjects parseDebuggingProjects(File file) {
-        println "component:XmlUtils:parseDebuggingProjects"
         DebuggingProjects debuggingProjects = new DebuggingProjects()
 
         if (file.exists()) {
@@ -29,19 +28,16 @@ public class XmlUtils {
     }
 
     private static Project getProjectByNode(Node projectNode) {
-        println "component:XmlUtils:getProjectByNode:project="
         def project = new Project()
         project.name = projectNode.attribute("name")
         project.artifactId = projectNode.artifactId[0].text()
         project.groupId = projectNode.groupId[0].text()
         project.build_project = projectNode.build_project[0].text()
         project.url = projectNode.url[0].text()
-        println project
         project
     }
 
     static Projects parse(String path) {
-        println "component:XmlUtils:parse:path=$path"
         def parser = new XmlParser()
         parser.setFeature("http://apache.org/xml/features/disallow-doctype-decl", false)
         parser.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false)
