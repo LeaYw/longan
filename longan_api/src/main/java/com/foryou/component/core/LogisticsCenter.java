@@ -1,9 +1,9 @@
-package me.leayw.longan_api.core;
+package com.foryou.component.core;
 
 import android.app.Application;
 import android.util.Log;
 
-import me.leayw.longan_api.AppProxy;
+import com.foryou.component.AppProxy;
 
 import java.util.ArrayList;
 import java.util.List;

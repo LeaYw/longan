@@ -1,9 +1,9 @@
-package me.leayw.longan_api;
+package com.foryou.component;
 
 import android.app.Application;
 import android.util.Log;
 
-import me.leayw.longan_api.core.LogisticsCenter;
+import com.foryou.component.core.LogisticsCenter;
 
 /**
  * Description:
@@ -11,8 +11,8 @@ import me.leayw.longan_api.core.LogisticsCenter;
  * Date:2019/4/11 7:37 PM
  * Email:liyawei@foryou56.com
  */
-public class Longan {
-    private static final String TAG = "Longan";
+public class FYComponent {
+    private static final String TAG = "FYComponent";
 
     public static void init(Application application){
         Log.i(TAG, "longan init start");

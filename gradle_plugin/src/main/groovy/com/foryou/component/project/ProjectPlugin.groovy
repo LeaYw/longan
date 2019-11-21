@@ -52,7 +52,7 @@ class ProjectPlugin implements Plugin<Project> {
      */
     static void compileDependentProject(Project project) {
         project.afterEvaluate {
-            def fyComponent = project.extensions.longan
+            def fyComponent = project.extensions.fyComponent
             project.dependencies(fyComponent.dynamicDependencies)
         }
     }

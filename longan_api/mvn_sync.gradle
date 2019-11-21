@@ -1,9 +1,6 @@
 apply plugin: 'maven'
 apply plugin: 'signing'
 
-def VERSION="0.1.6"
-def ARTIFACT_ID="longan-api"
-
 configurations {
     deployerJars
 }

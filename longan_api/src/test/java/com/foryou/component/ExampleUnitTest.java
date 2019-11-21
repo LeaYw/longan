@@ -1,4 +1,4 @@
-package com.foryou.longan_api;
+package com.foryou.component;
 
 import org.junit.Test;
 
